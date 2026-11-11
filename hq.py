@@ -33,7 +33,7 @@ from pytdx.parser.get_security_quotes import GetSecurityQuotesCmd
 from pytdx.parser.get_transaction_data import GetTransactionData
 from pytdx.parser.get_xdxr_info import GetXdXrInfo
 from pytdx.parser.get_report_file import GetReportFile
-from pytdx.parser.setup_commands import SetupCmd1, SetupCmd2, SetupCmd3
+from pytdx.parser.setup_commands import SetupCmd1, SetupCmd2
 from pytdx.util import get_real_trade_date, trade_date_sse
 try:
     # Python 3
@@ -50,9 +50,11 @@ if __name__ == '__main__':
 class TdxHq_API(BaseSocketClient):
 
     def setup(self):
+        # Current HQ servers return a two-byte K-line stub after the old
+        # SetupCmd3 (0x0fdb) client-version announcement. Keep the working
+        # two-command handshake for initial connections and reconnects.
         SetupCmd1(self.client).call_api()
         SetupCmd2(self.client).call_api()
-        SetupCmd3(self.client).call_api()
 
     # API List
 

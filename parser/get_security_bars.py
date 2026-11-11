@@ -44,9 +44,16 @@ class GetSecurityBarsCmd(BaseParser):
         self.send_pkg = pkg
 
     def parseResponse(self, body_buf):
+        if len(body_buf) < 2:
+            raise ValueError("TDX K-line response has no record-count header")
         pos = 0
 
         (ret_count,) = struct.unpack("<H", body_buf[0: 2])
+        if ret_count and len(body_buf) == 2:
+            raise ValueError(
+                "TDX server returned a K-line stub (count=%d, body=%s); "
+                "no actual bars were received" % (ret_count, bytes(body_buf).hex())
+            )
         pos += 2
 
         klines = []

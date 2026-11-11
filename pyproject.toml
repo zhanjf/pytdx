@@ -1,0 +1,23 @@
+[build-system]
+requires = ["setuptools>=64"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "pytdx"
+version = "1.72+zhanjf.1"
+description = "Zhanjf's maintained PyTDX fork with compatible TDX HQ handshake"
+readme = "README.md"
+requires-python = ">=3.8"
+dependencies = ["pandas", "six"]
+
+[project.optional-dependencies]
+cli = ["click"]
+trade = ["requests"]
+
+[project.urls]
+Repository = "https://github.com/zhanjf/pytdx"
+
+[tool.setuptools]
+packages = ["pytdx", "pytdx.bin", "pytdx.config", "pytdx.crawler", "pytdx.parser", "pytdx.pool", "pytdx.reader", "pytdx.trade", "pytdx.util"]
+package-dir = {pytdx = "."}
+include-package-data = false
